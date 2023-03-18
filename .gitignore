@@ -5,3 +5,4 @@ test
 dist
 pyproject.toml
 ColadaUtility.egg-info
+.vscode
