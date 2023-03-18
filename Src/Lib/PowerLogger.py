@@ -72,7 +72,7 @@ class Logger():
                 self.i(f'Created file {filepath}')
                 
         except:
-            self.i(f'Unable to create file {filepath}')
+            self.i(f'Unable to create file: {filepath}')
     
                     
     def __generateMessage__(self, message:str):
