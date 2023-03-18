@@ -1,7 +1,7 @@
 import datetime
 import re
 
-from Lib.PowerColor import Colors as c
+from ColadaUtility.PowerColor import Colors as c
 res = 'res'
 
 class Logger():
