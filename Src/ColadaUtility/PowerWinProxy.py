@@ -41,3 +41,16 @@ class Proxy():
         
         except:
             return False
+        
+    
+    def getCurrentProxy(self) -> str:
+        try:
+            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER,
+                                 self.__regpath__,
+                                 0, winreg.KEY_READ)
+            proxy = winreg.QueryValueEx(key, 'ProxyServer')
+            winreg.CloseKey(key)
+            return proxy[0]
+        except:
+            return 'Failed to get current proxy'
+        
