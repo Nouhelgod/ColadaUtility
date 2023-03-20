@@ -25,6 +25,7 @@ class Colors:
         
         self.escapeCode = '\033['      
         self.res = '\x1b[0m'
+        self.clearEscapeCode = self.escapeCode
         
         self.foreground = False
         self.background = False
@@ -61,10 +62,6 @@ class Colors:
             if arg in self.pKeys:
                 self.preset = True
                 self.pVal = val
-                
-        if 'link' in _arg:
-            print('link found')
-            return self.__decorateLink__()
         
         if self.foreground:
             if self.fgVal in self.default:
@@ -139,10 +136,15 @@ class Colors:
                     
         if self.preset:
             if self.pVal == 'link':
+                self.__clearEscapeCode__(self)
                 self.__makeFg__(self, self.blue[0])
                 self.__makeDec__(self, self.italic[0])
                 self.__makeDec__(self, self.underline[0])
-        
+                
+            if self.pVal == 'error':
+                self.__clearEscapeCode__(self)
+                self.__makeFg__(self, self.red[0])
+                self.__makeDec__(self, self.italic[0])
                 
         if self.text:
             return self.__finalEscapeCode__(self) + self.tVal + self.res
@@ -162,17 +164,9 @@ class Colors:
     def __makeDec__(self, dec:str) -> None:
         self.escapeCode += f';{dec}'
         
-        
-    def __decorateLink__(self) -> str:
-        if not self.text:
-            return ''
-        
-        self.__makeFg__(self, self.blue[0]) 
-        self.__makeDec__(self, self.italic[0])
-        self.__makeDec__(self, self.undeline[0])
-        link = self.__finalEscapeCode__(self) + self.tVal + self.res
-        
-        return link
+    
+    def __clearEscapeCode__(self) -> None:
+        self.escapeCode = self.clearEscapeCode
         
         
     def __finalEscapeCode__(self) -> str:

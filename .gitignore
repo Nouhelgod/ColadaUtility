@@ -6,3 +6,4 @@ dist
 pyproject.toml
 ColadaUtility.egg-info
 .vscode
+testLog.txt

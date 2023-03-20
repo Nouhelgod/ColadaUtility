@@ -42,12 +42,23 @@ class Logger():
         self.__logToFiles__(fileMessage)
 
 
-    def e(self, inf: str) -> None:
+    def e(self, inf: str, displaySeeFile: bool = False) -> None:
         message = f'{self.__getDate__()}{c(e=self.coloredTerminal, f="r", b="x", d="b", text="ERROR")} : ' +\
+        f'{c(e=self.coloredTerminal, p="error")}{inf}{c()}'
+        terminalMessage, fileMessage = self.__generateMessage__(message)
+        seeFileCaution = f'{c(p="error")}, see {c(p="link")}{self.outputFiles[0]}{c()} {c(p="error")}for details{c()}'
+        
+        if self.writeDataToFile and len(self.outputFiles) > 0 and displaySeeFile:
+            terminalMessage += seeFileCaution
+            
+        print(terminalMessage)
+        self.__logToFiles__(fileMessage)
+        
+    def f(self, inf: str) -> None:
+        message = f'{self.__getDate__()}{c(e=self.coloredTerminal, f="r", b="x", d="b", text="HIDEN")} : ' +\
         f'{c(e=self.coloredTerminal, f="r", d="i")}{inf}{c()}'
         terminalMessage, fileMessage = self.__generateMessage__(message)
-        print(terminalMessage)
-        self.__logToFiles__(fileMessage)     
+        self.__logToFiles__(fileMessage)
                     
     
     def __logToFiles__(self, message: str) -> None:
@@ -79,8 +90,7 @@ class Logger():
         terminal = message
         filem = re.sub(r'([^m]*)m', '', message)
         
-        return terminal, filem
-                            
+        return terminal, filem                
                 
     def __getDate__(self) -> str:
         date = datetime.datetime.now().strftime(self.dateFormat)       
