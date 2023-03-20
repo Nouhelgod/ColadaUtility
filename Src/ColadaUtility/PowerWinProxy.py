@@ -54,3 +54,15 @@ class Proxy():
         except:
             return 'Failed to get current proxy'
         
+
+    def getProxyStatus(self) -> bool:
+        try:
+            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER,
+                                 self.__regpath__,
+                                 0, winreg.KEY_READ)
+            status = winreg.QueryValueEx(key, 'ProxyEnable')
+            winreg.CloseKey(key)
+            return bool(status[0])
+        
+        except:
+            raise(RuntimeError)
